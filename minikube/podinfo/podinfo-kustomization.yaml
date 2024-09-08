@@ -11,7 +11,7 @@ spec:
   patches:
     - patch: |-
         apiVersion: autoscaling/v2
-        kind: HorizontalPodAutoscaler
+        kind: Kustomization
         metadata:
           name: podinfo
         spec:
