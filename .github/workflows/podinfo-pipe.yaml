@@ -14,13 +14,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # Set up kubeconfig for Minikube
-      - name: Set up kubeconfig
-        run: |
-          mkdir -p ~/.kube
-          echo "${{ secrets.KUBE_CONFIG }}" > ~/.kube/config
-          chmod 600 ~/.kube/config
-
+      
       # Install Minikube CLI
       - name: Install Minikube CLI
         run: |
@@ -28,6 +22,14 @@ jobs:
           sudo mv minikube-linux-amd64 /usr/local/bin/minikube
           sudo chmod +x /usr/local/bin/minikube
           minikube version
+
+      # Set up kubeconfig for Minikube
+      - name: Set up kubeconfig
+        run: |
+          mkdir -p ~/.kube
+          echo "${{ secrets.KUBE_CONFIG }}" > ~/.kube/config
+          chmod 600 ~/.kube/config
+
 
       # Verify Kubernetes context
       - name: Verify Kubernetes context
@@ -38,4 +40,4 @@ jobs:
       # Apply Kubernetes manifests
       - name: Apply Kubernetes manifests
         run: |
-          kubectl apply -f clusters/openshift-cluster/flux-system/base
+          kubectl apply -f clusters/minikube-cluster/flux-system/base
