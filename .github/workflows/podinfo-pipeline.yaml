@@ -29,4 +29,4 @@ jobs:
       # Apply Kubernetes manifests
       - name: Apply Kubernetes manifests
         run: |
-          kubectl apply -f clusters/kubernetes-cluster/flux-system/base
+          kubectl apply -f minikube/podinfo/podinfo-kustomization.yaml
