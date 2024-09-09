@@ -1,9 +1,10 @@
-name: Deploy to Kubernetes
+name: Deploy to Minikube
 
 on:
   push:
     branches:
-      - main 
+      - main  # Trigger deployment on push to the main branch
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -13,14 +14,22 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # Create the .kube directory and set up kubeconfig
+      # Set up kubeconfig for Minikube
       - name: Set up kubeconfig
         run: |
           mkdir -p ~/.kube
           echo "${{ secrets.KUBE_CONFIG }}" > ~/.kube/config
           chmod 600 ~/.kube/config
 
-      # Verify that we are logged into the Kubernetes cluster
+      # Install Minikube CLI
+      - name: Install Minikube CLI
+        run: |
+          curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+          sudo mv minikube-linux-amd64 /usr/local/bin/minikube
+          sudo chmod +x /usr/local/bin/minikube
+          minikube version
+
+      # Verify Kubernetes context
       - name: Verify Kubernetes context
         run: |
           kubectl config get-contexts
@@ -29,4 +38,4 @@ jobs:
       # Apply Kubernetes manifests
       - name: Apply Kubernetes manifests
         run: |
-          kubectl apply -f clusters/kubernetes-cluster/flux-system/base
+          kubectl apply -f clusters/openshift-cluster/flux-system/base
