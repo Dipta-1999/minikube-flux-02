@@ -17,7 +17,7 @@ jobs:
       - name: Set up kubeconfig
         run: |
           mkdir -p ~/.kube
-          echo "${{ secrets.KUBE_CONFIG }}" > ~/.kube/config
+          echo "${{ secrets.KUBE_CONFIG1 }}" > ~/.kube/config
           chmod 600 ~/.kube/config
 
       # Verify that we are logged into the Kubernetes cluster
